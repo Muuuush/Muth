@@ -213,7 +213,7 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator*(const Vector<T, n> &left, const Vector<T, n> &right)
+    T operator*(const Vector<T, n> &left, const Vector<T, n> &right)
     {
         return std::move(left.dot(right));
     }
