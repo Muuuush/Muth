@@ -29,7 +29,7 @@ namespace Muth
         T length_square() const;
         template<typename R>
         R length() const;
-        Vector<T, n> dot(Vector<T, n> other) const;
+        T dot(const &Vector<T, n> other) const;
     
     public:
         Vector<T, n> &operator= (const Vector<T, n> &src);
@@ -120,12 +120,12 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    inline Vector<T, n> Vector<T, n>::dot(Vector<T, n> other) const
+    inline T Vector<T, n>::dot(const &Vector<T, n> other) const
     {
-        Vector<T, n> result;
+        T result = (T)0;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = elements[i] * other[i];
-        return std::move(result);
+            result += elements[i] * other[i];
+        return result;
     }
 
     template <typename T, size_t n>
