@@ -132,6 +132,7 @@ namespace Muth
     inline Vector<T, n> &Vector<T, n>::operator=(const Vector<T, n> &src)
     {
         memcpy(elements, src.elements, n * sizeof(T));
+        return *this;
     }
 
     template <typename T, size_t n>
