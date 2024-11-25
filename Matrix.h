@@ -26,6 +26,10 @@ namespace Muth
         ~Matrix();
 
         Matrix<T, n, m> &operator=(Matrix<T, n, m> &&other);
+        Matrix<T, n, m> &operator+=(Matrix<T, n, m> &&other);
+        Matrix<T, n, m> &operator-=(Matrix<T, n, m> &&other);
+        Matrix<T, n, m> &operator*=(T lambda);
+        Matrix<T, n, m> &operator/=(T lambda);
 
         inline T *operator[](const size_t &row) const;
         inline T &get_ref(const size_t &row, const size_t &col) const;
@@ -92,6 +96,42 @@ namespace Muth
     {
         elements = other.elements;
         other.elements = nullptr;
+        return *this;
+    }
+
+    template <typename T, size_t n, size_t m>
+    inline Matrix<T, n, m> &Matrix<T, n, m>::operator+=(Matrix<T, n, m> &&other)
+    {
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < m; c++)
+                (*this)[r][c] += other[r][c];
+        return *this;
+    }
+
+    template <typename T, size_t n, size_t m>
+    inline Matrix<T, n, m> &Matrix<T, n, m>::operator-=(Matrix<T, n, m> &&other)
+    {
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < m; c++)
+                (*this)[r][c] -= other[r][c];
+        return *this;
+    }
+
+    template <typename T, size_t n, size_t m>
+    inline Matrix<T, n, m> &Matrix<T, n, m>::operator*=(T lambda)
+    {
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < m; c++)
+                (*this)[r][c] *= lambda;
+        return *this;
+    }
+
+    template <typename T, size_t n, size_t m>
+    inline Matrix<T, n, m> &Matrix<T, n, m>::operator/=(T lambda)
+    {
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < m; c++)
+                (*this)[r][c] /= lambda;
         return *this;
     }
 
@@ -244,6 +284,36 @@ namespace Muth
             for (size_t c = 0; c < w; c++)
                 for (size_t k = 0; k < m; k++)
                     result[r][c] += left[r][k] * right[k][c];
+        return std::move(result);
+    }
+    
+    template <typename T, size_t n, size_t m>
+    Matrix<T, n, m> operator*(const Matrix<T, n, m> &mat, T lambda)
+    {
+        Matrix<T, n, m> result;
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < w; c++)
+                result[r][c] = mat[r][c] * lambda;
+        return std::move(result);
+    }
+    
+    template <typename T, size_t n, size_t m>
+    Matrix<T, n, m> operator/(const Matrix<T, n, m> &mat, T lambda)
+    {
+        Matrix<T, n, m> result;
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < w; c++)
+                result[r][c] = mat[r][c] / lambda;
+        return std::move(result);
+    }
+    
+    template <typename T, size_t n, size_t m>
+    Matrix<T, n, m> operator*(T lambda, const Matrix<T, n, m> &mat)
+    {
+        Matrix<T, n, m> result;
+        for (size_t r = 0; r < n; r++)
+            for (size_t c = 0; c < w; c++)
+                result[r][c] = mat[r][c] * lambda;
         return std::move(result);
     }
 

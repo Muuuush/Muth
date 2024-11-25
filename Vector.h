@@ -139,6 +139,7 @@ namespace Muth
     {
         for (size_t i = 0; i < n; i++)
             this->elements[i] += other[i];
+        return *this;
     }
 
     template <typename T, size_t n>
@@ -146,6 +147,7 @@ namespace Muth
     {
         for (size_t i = 0; i < n; i++)
             this->elements[i] -= other[i];
+        return *this;
     }
 
     template <typename T, size_t n>
@@ -153,6 +155,7 @@ namespace Muth
     {
         for (size_t i = 0; i < n; i++)
             this->elements[i] *= lambda;
+        return *this;
     }
 
     template <typename T, size_t n>
@@ -160,6 +163,7 @@ namespace Muth
     {
         for (size_t i = 0; i < n; i++)
             this->elements[i] /= lambda;
+        return *this;
     }
 
     template <typename T, size_t n>
