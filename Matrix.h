@@ -292,7 +292,7 @@ namespace Muth
     {
         Matrix<T, n, m> result;
         for (size_t r = 0; r < n; r++)
-            for (size_t c = 0; c < w; c++)
+            for (size_t c = 0; c < m; c++)
                 result[r][c] = mat[r][c] * lambda;
         return std::move(result);
     }
@@ -302,7 +302,7 @@ namespace Muth
     {
         Matrix<T, n, m> result;
         for (size_t r = 0; r < n; r++)
-            for (size_t c = 0; c < w; c++)
+            for (size_t c = 0; c < m; c++)
                 result[r][c] = mat[r][c] / lambda;
         return std::move(result);
     }
@@ -312,7 +312,7 @@ namespace Muth
     {
         Matrix<T, n, m> result;
         for (size_t r = 0; r < n; r++)
-            for (size_t c = 0; c < w; c++)
+            for (size_t c = 0; c < m; c++)
                 result[r][c] = mat[r][c] * lambda;
         return std::move(result);
     }
