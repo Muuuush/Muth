@@ -13,7 +13,6 @@ namespace Muth
     public:
         Vector();
         Vector(const Vector<T, n> &src);
-        void operator= (const Vector<T, n> &src);
         Vector(const T *values);
         Vector(const std::initializer_list<T> &values);
         Vector(Vector<T, n> &&r_value);
@@ -31,6 +30,13 @@ namespace Muth
         template<typename R>
         R length() const;
         Vector<T, n> dot(Vector<T, n> other) const;
+    
+    public:
+        void operator= (const Vector<T, n> &src);
+        void operator+= (const Vector<T, n> &other);
+        void operator-= (const Vector<T, n> &other);
+        void operator*= (T lambda);
+        void operator/= (T lambda);
     };
 
     template <typename T, size_t n>
@@ -43,12 +49,6 @@ namespace Muth
     inline Vector<T, n>::Vector(const Vector<T, n> &src)
     {
         elements = new T[n]{};
-        memcpy(elements, src.elements, n * sizeof(T));
-    }
-
-    template <typename T, size_t n>
-    inline void Vector<T, n>::operator=(const Vector<T, n> &src)
-    {
         memcpy(elements, src.elements, n * sizeof(T));
     }
 
@@ -120,11 +120,63 @@ namespace Muth
     }
 
     template <typename T, size_t n>
+    inline Vector<T, n> Vector<T, n>::dot(Vector<T, n> other) const
+    {
+        Vector<T, n> result;
+        for (size_t i = 0; i < n; i++)
+            result.elements[i] = elements[i] * other[i];
+        return std::move(result);
+    }
+
+    template <typename T, size_t n>
+    inline void Vector<T, n>::operator=(const Vector<T, n> &src)
+    {
+        memcpy(elements, src.elements, n * sizeof(T));
+    }
+
+    template <typename T, size_t n>
+    inline void Vector<T, n>::operator+=(const Vector<T, n> &other)
+    {
+        for (size_t i = 0; i < n; i++)
+            this->elements[i] += other[i];
+    }
+
+    template <typename T, size_t n>
+    inline void Vector<T, n>::operator-=(const Vector<T, n> &other)
+    {
+        for (size_t i = 0; i < n; i++)
+            this->elements[i] -= other[i];
+    }
+
+    template <typename T, size_t n>
+    inline void Vector<T, n>::operator*=(T lambda)
+    {
+        for (size_t i = 0; i < n; i++)
+            this->elements[i] *= lambda;
+    }
+
+    template <typename T, size_t n>
+    inline void Vector<T, n>::operator/=(T lambda)
+    {
+        for (size_t i = 0; i < n; i++)
+            this->elements[i] /= lambda;
+    }
+
+    template <typename T, size_t n>
     Vector<T, n> operator+(const Vector<T, n> &left, const Vector<T, n> &right)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
             result.elements[i] = left[i] + right[i];
+        return std::move(result);
+    }
+
+    template <typename T, size_t n>
+    Vector<T, n> operator-(const Vector<T, n> &left, const Vector<T, n> &right)
+    {
+        Vector<T, n> result;
+        for (size_t i = 0; i < n; i++)
+            result.elements[i] = left[i] - right[i];
         return std::move(result);
     }
 
@@ -138,20 +190,20 @@ namespace Muth
     }
 
     template <typename T, size_t n>
+    Vector<T, n> operator/(const Vector<T, n> &vec, T lambda)
+    {
+        Vector<T, n> result;
+        for (size_t i = 0; i < n; i++)
+            result.elements[i] = vec[i] / lambda;
+        return std::move(result);
+    }
+
+    template <typename T, size_t n>
     Vector<T, n> operator*(T lambda, const Vector<T, n> &vec)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
             result.elements[i] = vec[i] * lambda;
-        return std::move(result);
-    }
-
-    template <typename T, size_t n>
-    inline Vector<T, n> Vector<T, n>::dot(Vector<T, n> other) const
-    {
-        Vector<T, n> result;
-        for (size_t i = 0; i < n; i++)
-            result.elements[i] = elements[i] * other[i];
         return std::move(result);
     }
 
