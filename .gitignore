@@ -1,6 +1,6 @@
 .vscode/settings.json
 .vscode/tasks.json
-test/test.cpp
-test/test.exe
-test/Timer.cpp
-test/Timer.h
+test.cpp
+test.exe
+Timer.cpp
+Timer.h

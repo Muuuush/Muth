@@ -27,8 +27,10 @@ namespace Muth
 
     public:
         T length_square() const;
-        template<typename R>
-        R length() const;
+        T length() const;
+        Vector<T, n> normalized() const;
+        T projection(const Vector<T, n> &vec) const;
+        Vector<T, n> projection_vector(const Vector<T, n> &vec) const;
         T dot(const Vector<T, n> &other) const;
     
     public:
@@ -113,10 +115,23 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    template <typename R>
-    inline R Vector<T, n>::length() const
+    inline T Vector<T, n>::length() const
     {
-        return (R)sqrt((double)this->length_square());
+        if (std::is_same<T, float>::value)
+            return sqrtf(this->length_square());
+        return sqrt(this->length_square());
+    }
+
+    template <typename T, size_t n>
+    inline T Vector<T, n>::projection(const Vector<T, n> &vec) const
+    {
+        return this->dot(vec) / vec.length();
+    }
+
+    template <typename T, size_t n>
+    inline Vector<T, n> Vector<T, n>::projection_vector(const Vector<T, n> &vec) const
+    {
+        return std::move(vec.normalized() * this->projection(vec));
     }
 
     template <typename T, size_t n>
@@ -125,6 +140,16 @@ namespace Muth
         T result = (T)0;
         for (size_t i = 0; i < n; i++)
             result += elements[i] * other[i];
+        return result;
+    }
+
+    template <typename T, size_t n>
+    inline Vector<T, n> Vector<T, n>::normalized() const
+    {
+        Vector<T, n> result;
+        T len = this->length();
+        for (size_t i = 0; i < n; i++)
+            result[i] = this->elements[i] / len;
         return result;
     }
 
