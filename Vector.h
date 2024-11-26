@@ -150,7 +150,7 @@ namespace Muth
         T len = this->length();
         for (size_t i = 0; i < n; i++)
             result[i] = this->elements[i] / len;
-        return result;
+        return std::move(result);
     }
 
     template <typename T, size_t n>
