@@ -2,6 +2,7 @@
 #define MUTH_VECTOR_H
 
 #include <string>
+#include "MuthException.h"
 
 namespace Muth
 {
