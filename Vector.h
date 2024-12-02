@@ -22,10 +22,8 @@ namespace Muth
     
     public:
         T& operator[] (const size_t &idx) const;
-        inline T &get_ref(const size_t &idx) const;
 
         std::string to_string(const std::string &separator = " ") const;
-        operator std::string() const;
 
     public:
         T length_square() const;
@@ -89,21 +87,12 @@ namespace Muth
         return elements[idx];
     }
 
-    template <typename T, size_t n>
-    inline T &Vector<T, n>::get_ref(const size_t &idx) const
-    {
-        if (0 <= idx && idx < n)
-            return elements[idx];
-        else
-            throw MuthOutOfRangeException("vector index out of range");
-    }
-
     template <typename T, size_t n>   
     inline std::string Vector<T, n>::to_string(const std::string &separator /*= " "*/) const
     {
         std::stringstream ss;
         for (size_t i = 0; i < n; i++)
-            ss << this->elements[i] << separator;
+            ss << (*this)[i] << separator;
         return std::move(ss.str());
     }
 
@@ -112,7 +101,7 @@ namespace Muth
     {
         T result = (T)0;
         for (size_t i = 0; i < n; i++)
-            result += elements[i] * elements[i];
+            result += (*this)[i] * (*this)[i];
         return result;
     }
 
@@ -141,7 +130,7 @@ namespace Muth
     {
         T result = (T)0;
         for (size_t i = 0; i < n; i++)
-            result += elements[i] * other[i];
+            result += (*this)[i] * other[i];
         return result;
     }
 
@@ -151,7 +140,7 @@ namespace Muth
         Vector<T, n> result;
         T len = this->length();
         for (size_t i = 0; i < n; i++)
-            result[i] = this->elements[i] / len;
+            result[i] = (*this)[i] / len;
         return std::move(result);
     }
 
@@ -166,7 +155,7 @@ namespace Muth
     inline Vector<T, n> &Vector<T, n>::operator+=(const Vector<T, n> &other)
     {
         for (size_t i = 0; i < n; i++)
-            this->elements[i] += other[i];
+            (*this)[i] += other[i];
         return *this;
     }
 
@@ -174,7 +163,7 @@ namespace Muth
     inline Vector<T, n> &Vector<T, n>::operator-=(const Vector<T, n> &other)
     {
         for (size_t i = 0; i < n; i++)
-            this->elements[i] -= other[i];
+            (*this)[i] -= other[i];
         return *this;
     }
 
@@ -182,7 +171,7 @@ namespace Muth
     inline Vector<T, n> &Vector<T, n>::operator*=(T lambda)
     {
         for (size_t i = 0; i < n; i++)
-            this->elements[i] *= lambda;
+            (*this)[i] *= lambda;
         return *this;
     }
 
@@ -190,7 +179,7 @@ namespace Muth
     inline Vector<T, n> &Vector<T, n>::operator/=(T lambda)
     {
         for (size_t i = 0; i < n; i++)
-            this->elements[i] /= lambda;
+            (*this)[i] /= lambda;
         return *this;
     }
 
@@ -199,7 +188,7 @@ namespace Muth
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = left[i] + right[i];
+            result[i] = left[i] + right[i];
         return std::move(result);
     }
 
@@ -208,7 +197,7 @@ namespace Muth
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = left[i] - right[i];
+            result[i] = left[i] - right[i];
         return std::move(result);
     }
 
@@ -217,7 +206,7 @@ namespace Muth
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = vec[i] * lambda;
+            result[i] = vec[i] * lambda;
         return std::move(result);
     }
 
@@ -226,7 +215,7 @@ namespace Muth
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = vec[i] / lambda;
+            result[i] = vec[i] / lambda;
         return std::move(result);
     }
 
@@ -235,7 +224,7 @@ namespace Muth
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = vec[i] * lambda;
+            result[i] = vec[i] * lambda;
         return std::move(result);
     }
 
@@ -250,7 +239,7 @@ namespace Muth
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
-            result.elements[i] = -vec[i];
+            result[i] = -vec[i];
         return std::move(result);
     }
 
@@ -261,16 +250,7 @@ namespace Muth
     }
 
     template<typename T>
-    using Vec2 = Vector<T, 2ULL>;
-
-    template<typename T>
     using Vec3 = Vector<T, 3ULL>;
-
-    template<typename T>
-    T cross(Vec2<T> left, Vec2<T> right)
-    {
-        return left[0] * right[1] - left[1] * right[0];
-    }
 
     template<typename T>
     Vec3<T> cross(Vec3<T> left, Vec3<T> right)

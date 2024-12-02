@@ -4,5 +4,6 @@
 #include "NumTool.h"
 #include "Vector.h"
 #include "Matrix.h"
+#include "Vec2.h"
 
 #endif
