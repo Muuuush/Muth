@@ -5,5 +5,6 @@
 #include "Vector.h"
 #include "Matrix.h"
 #include "Vec2.h"
+#include "Vec3.h"
 
 #endif

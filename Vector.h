@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 #include "MuthException.h"
+#include "Vec2.h"
+#include "Vec3.h"
 
 namespace Muth
 {
@@ -184,7 +186,7 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator+(const Vector<T, n> &left, const Vector<T, n> &right)
+    inline Vector<T, n> operator+(const Vector<T, n> &left, const Vector<T, n> &right)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
@@ -193,7 +195,7 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator-(const Vector<T, n> &left, const Vector<T, n> &right)
+    inline Vector<T, n> operator-(const Vector<T, n> &left, const Vector<T, n> &right)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
@@ -202,7 +204,7 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator*(const Vector<T, n> &vec, T lambda)
+    inline Vector<T, n> operator*(const Vector<T, n> &vec, T lambda)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
@@ -211,7 +213,7 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator/(const Vector<T, n> &vec, T lambda)
+    inline Vector<T, n> operator/(const Vector<T, n> &vec, T lambda)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
@@ -220,7 +222,7 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator*(T lambda, const Vector<T, n> &vec)
+    inline Vector<T, n> operator*(T lambda, const Vector<T, n> &vec)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
@@ -229,13 +231,13 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    T operator*(const Vector<T, n> &left, const Vector<T, n> &right)
+    inline T operator*(const Vector<T, n> &left, const Vector<T, n> &right)
     {
         return std::move(left.dot(right));
     }
 
     template <typename T, size_t n>
-    Vector<T, n> operator-(const Vector<T, n> &vec)
+    inline Vector<T, n> operator-(const Vector<T, n> &vec)
     {
         Vector<T, n> result;
         for (size_t i = 0; i < n; i++)
@@ -244,13 +246,10 @@ namespace Muth
     }
 
     template <typename T, size_t n>
-    std::ostream &operator<<(std::ostream &out, const Vector<T, n> &vec)
+    inline std::ostream &operator<<(std::ostream &out, const Vector<T, n> &vec)
     {
         return out << vec.to_string();
     }
-
-    template<typename T>
-    using Vec3 = Vector<T, 3ULL>;
 
     template<typename T>
     Vec3<T> cross(Vec3<T> left, Vec3<T> right)
